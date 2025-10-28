@@ -1,0 +1,23 @@
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Optional: Custom hover effects
+.product-card {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+// Optional: Image loading animation
+img {
+  transition: opacity 0.3s ease;
+
+  &:not([src]) {
+    opacity: 0;
+  }
+}

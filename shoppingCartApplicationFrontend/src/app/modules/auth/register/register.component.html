@@ -1,0 +1,182 @@
+<div>
+  <div class="row">
+    <div class="col">
+      <div class="pageContainer">
+
+        <!-- Page Header -->
+        <div class="row mt-2">
+          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-2">
+            <label class="top-heading">User Registration</label>
+          </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="formBox m-30">
+          <form #registerForm="ngForm" (ngSubmit)="onRegister()">
+
+            <!-- Row 1: Name and Email -->
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-2">
+                <label class="text-label">Full Name <span class="text-danger">*</span></label>
+                <div class="form-test">
+                  <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    placeholder="Enter your full name"
+                    [(ngModel)]="name"
+                    #nameInput="ngModel"
+                    required
+                    minlength="2"
+                    [disabled]="isLoading"
+                    [style.border-color]="
+                      (!name || name === '' || (nameInput.invalid && nameInput.touched))
+                        ? '#FFD978'
+                        : '#E1EDFD'
+                    "
+                  >
+                  <span
+                    *ngIf="nameInput.invalid && nameInput.touched"
+                    style="color: red; font-size: 12px; margin-top: 4px; display: block;">
+                    <span *ngIf="nameInput.errors?.['required']">Name is required</span>
+                    <span *ngIf="nameInput.errors?.['minlength']">Name must be at least 2 characters</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-2">
+                <label class="text-label">Email Address <span class="text-danger">*</span></label>
+                <div class="form-test">
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="your@email.com"
+                    [(ngModel)]="email"
+                    #emailInput="ngModel"
+                    required
+                    email
+                    [disabled]="isLoading"
+                    [style.border-color]="
+                      (!email || email === '' || (emailInput.invalid && emailInput.touched))
+                        ? '#FFD978'
+                        : '#E1EDFD'
+                    "
+                  >
+                  <span
+                    *ngIf="emailInput.invalid && emailInput.touched"
+                    style="color: red; font-size: 12px; margin-top: 4px; display: block;">
+                    <span *ngIf="emailInput.errors?.['required']">Email is required</span>
+                    <span *ngIf="emailInput.errors?.['email']">Invalid email format</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2: Password and Confirm Password -->
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-2">
+                <label class="text-label">Password <span class="text-danger">*</span></label>
+                <div class="form-test">
+                  <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter password (min 6 characters)"
+                    [(ngModel)]="password"
+                    #passwordInput="ngModel"
+                    required
+                    minlength="6"
+                    [disabled]="isLoading"
+                    [style.border-color]="
+                      (!password || password === '' || (passwordInput.invalid && passwordInput.touched))
+                        ? '#FFD978'
+                        : '#E1EDFD'
+                    "
+                  >
+                  <span
+                    *ngIf="passwordInput.invalid && passwordInput.touched"
+                    style="color: red; font-size: 12px; margin-top: 4px; display: block;">
+                    <span *ngIf="passwordInput.errors?.['required']">Password is required</span>
+                    <span *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-2">
+                <label class="text-label">Confirm Password <span class="text-danger">*</span></label>
+                <div class="form-test">
+                  <input
+                    type="password"
+                    name="confirm_password"
+                    class="form-control"
+                    placeholder="Re-enter your password"
+                    [(ngModel)]="confirm_password"
+                    #confirmPasswordInput="ngModel"
+                    required
+                    minlength="6"
+                    [disabled]="isLoading"
+                    [style.border-color]="
+                      (!confirm_password || confirm_password === '' ||
+                       (confirmPasswordInput.invalid && confirmPasswordInput.touched) ||
+                       (password && confirm_password && password !== confirm_password))
+                        ? '#FFD978'
+                        : '#E1EDFD'
+                    "
+                  >
+                  <span
+                    *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched"
+                    style="color: red; font-size: 12px; margin-top: 4px; display: block;">
+                    <span *ngIf="confirmPasswordInput.errors?.['required']">Please confirm your password</span>
+                    <span *ngIf="confirmPasswordInput.errors?.['minlength']">Password must be at least 6 characters</span>
+                  </span>
+                  <span
+                    *ngIf="password && confirm_password && password !== confirm_password && confirmPasswordInput.touched"
+                    style="color: red; font-size: 12px; margin-top: 4px; display: block;">
+                    Passwords do not match
+                  </span>
+                  <span
+                    *ngIf="password && confirm_password && password === confirm_password && confirmPasswordInput.touched"
+                    style="color: green; font-size: 12px; margin-top: 4px; display: block;">
+                    ✓ Passwords match
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Submit Button -->
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3 col-xxl-3 mt-2">
+                <button
+                  class="btn btn-success rounded-pill btn-space m-10"
+                  type="submit"
+                  [disabled]="registerForm.invalid || isLoading || password !== confirm_password">
+                  <span *ngIf="!isLoading">Register</span>
+                  <span *ngIf="isLoading">Registering...</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 4: Loading Spinner -->
+            <div class="row mt-2" *ngIf="isLoading">
+              <div class="col-md-12 text-center">
+                <img style="width: 6vh;" src="assets/gif/INDSpinner.gif" alt="spinner">
+              </div>
+            </div>
+
+            <!-- Row 5: Login Link -->
+            <div class="row mt-3">
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                <p class="text-center" style="font-size: 14px;">
+                  Already have an account?
+                  <a routerLink="/auth/login" class="text-primary fw-bold" style="text-decoration: none;">Login here</a>
+                </p>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

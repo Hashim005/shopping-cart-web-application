@@ -1,0 +1,120 @@
+<div>
+  <div class="row">
+    <div class="col">
+      <div class="pageContainer">
+
+        <!-- Page Header -->
+        <div class="row mt-2">
+          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mt-2">
+            <label class="top-heading">User Login</label>
+          </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="formBox m-30">
+          <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+
+            <!-- Row 1: Email -->
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-2">
+                <label class="text-label">Email Address <span class="text-danger">*</span></label>
+                <div class="form-test">
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="your@email.com"
+                    [(ngModel)]="email"
+                    #emailInput="ngModel"
+                    required
+                    email
+                    [disabled]="isLoading"
+                    [style.border-color]="
+                      (!email || email === '' || (emailInput.invalid && emailInput.touched))
+                        ? '#FFD978'
+                        : '#E1EDFD'
+                    "
+                  >
+                  <span
+                    *ngIf="emailInput.invalid && emailInput.touched"
+                    style="color: red; font-size: 12px; margin-top: 4px; display: block;">
+                    <span *ngIf="emailInput.errors?.['required']">Email is required</span>
+                    <span *ngIf="emailInput.errors?.['email']">Invalid email format</span>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Row 2: Password -->
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-2">
+                <label class="text-label">Password <span class="text-danger">*</span></label>
+                <div class="form-test position-relative">
+                  <input
+                    [type]="showPassword ? 'text' : 'password'"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    [(ngModel)]="password"
+                    #passwordInput="ngModel"
+                    required
+                    minlength="6"
+                    [disabled]="isLoading"
+                    [style.border-color]="
+                      (!password || password === '' || (passwordInput.invalid && passwordInput.touched))
+                        ? '#FFD978'
+                        : '#E1EDFD'
+                    "
+                  >
+                  <button
+                    type="button"
+                    class="btn btn-sm position-absolute password-toggle"
+                    (click)="togglePasswordVisibility()"
+                    [disabled]="isLoading">
+                    <span *ngIf="!showPassword">👁️</span>
+                    <span *ngIf="showPassword">🙈</span>
+                  </button>
+                  <span
+                    *ngIf="passwordInput.invalid && passwordInput.touched"
+                    style="color: red; font-size: 12px; margin-top: 4px; display: block;">
+                    <span *ngIf="passwordInput.errors?.['required']">Password is required</span>
+                    <span *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Submit Button -->
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-2">
+                <button
+                  class="btn btn-success rounded-pill btn-space m-10"
+                  type="submit"
+                  [disabled]="loginForm.invalid || isLoading">
+                  <span *ngIf="!isLoading">Login</span>
+                  <span *ngIf="isLoading">Logging in...</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Row 4: Loading Spinner -->
+            <div class="row mt-2" *ngIf="isLoading">
+              <div class="col-md-12 text-center">
+                <img style="width: 6vh;" src="assets/gif/INDSpinner.gif" alt="spinner">
+              </div>
+            </div>
+
+            <!-- Row 5: Register Link -->
+            <div class="row mt-3">
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                <p class="text-center" style="font-size: 14px;">
+                  Don't have an account?
+                  <a routerLink="/auth/register" class="text-primary fw-bold" style="text-decoration: none;">Register here</a>
+                </p>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

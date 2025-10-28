@@ -1,0 +1,77 @@
+<div class="cart-container container mx-auto p-6">
+  <div class="grid grid-cols-12 gap-6">
+    <!-- Left: items list -->
+    <div class="col-span-12 lg:col-span-8 bg-white rounded-lg shadow p-6">
+      <h2 class="text-2xl font-semibold mb-4">Shopping Cart</h2>
+
+      <div *ngIf="loading" class="text-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500 mx-auto"></div>
+      </div>
+
+      <div *ngIf="!loading && cartItems.length === 0" class="text-center py-12 text-gray-600">
+        Your cart is empty.
+      </div>
+
+      <div *ngFor="let item of cartItems" class="border-b last:border-b-0 py-4 flex items-center gap-4">
+        <img [src]="getImageUrl(item.productImageUrl)" [alt]="item.productName" class="w-20 h-20 rounded-md bg-gray-100 object-cover" />
+
+        <div class="flex-1">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-lg font-medium">{{ item.productName }}</div>
+              <div class="text-sm text-blue-600 mt-1">₹{{ item.unitPrice | number:'1.2-2' }}</div>
+            </div>
+            <div class="text-right font-semibold">₹{{ item.totalPrice | number:'1.2-2' }}</div>
+          </div>
+
+          <div class="mt-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <button class="px-3 py-1 bg-gray-100 rounded" (click)="decreaseQty(item)">-</button>
+              <div class="px-3 py-1 border rounded">{{ item?.quantity ?? 1 }}</div>
+              <button class="px-3 py-1 bg-gray-100 rounded" (click)="increaseQty(item)">+</button>
+            </div>
+            <div class="flex items-center gap-4">
+              <button class="text-sm text-red-500 flex items-center gap-2" (click)="removeItem(item)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: summary -->
+    <div class="col-span-12 lg:col-span-4">
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-xl font-semibold mb-4">Order Summary</h3>
+        <div class="text-sm text-gray-600 flex justify-between mb-3">
+          <span>Subtotal ({{ cartItems.length }} item{{ cartItems.length !== 1 ? 's' : '' }})</span>
+          <span>₹{{ subtotal | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="text-sm text-gray-600 flex justify-between mb-3">
+          <span>Shipping</span>
+          <span>₹{{ shipping | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="text-sm text-gray-600 flex justify-between mb-4">
+          <span>Tax (5%)</span>
+          <span>₹{{ tax | number:'1.2-2' }}</span>
+        </div>
+
+        <div class="border-t pt-4 mb-4">
+          <div class="flex items-center justify-between">
+            <div class="text-lg font-bold">Total</div>
+            <div class="text-2xl font-bold text-blue-600">₹{{ total | number:'1.2-2' }}</div>
+          </div>
+        </div>
+
+        <button class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded mb-3" (click)="proceedToCheckout()">Proceed to Checkout</button>
+        <button class="w-full border border-blue-300 text-blue-600 py-3 rounded" (click)="continueShopping()">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>

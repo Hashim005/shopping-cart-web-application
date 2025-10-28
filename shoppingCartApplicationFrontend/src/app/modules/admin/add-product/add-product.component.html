@@ -1,0 +1,173 @@
+<app-admin-home></app-admin-home>
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="container mx-auto px-6">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <div class="flex items-center space-x-3 mb-2">
+        <svg class="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <h1 class="text-4xl font-bold text-gray-800">Add New Product</h1>
+      </div>
+      <p class="text-gray-600 text-lg">Fill in the product details to add it to your store</p>
+    </div>
+
+    <!-- Form Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Left Column - Form -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg shadow-md p-8">
+
+          <!-- Basic Information Section -->
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b border-gray-200">
+              Basic Information
+            </h2>
+
+            <!-- Product Name -->
+            <div class="mb-6">
+              <label class="block text-gray-800 font-semibold mb-2">
+                Product Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                [(ngModel)]="product.name"
+                placeholder="e.g., Premium T-Shirt"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-gray-700">
+            </div>
+
+            <!-- Description -->
+            <div class="mb-6">
+              <label class="block text-gray-800 font-semibold mb-2">
+                Description <span class="text-red-500">*</span>
+              </label>
+              <textarea
+                [(ngModel)]="product.description"
+                rows="5"
+                placeholder="Describe your product..."
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none text-gray-700"></textarea>
+              <p class="text-gray-500 text-sm mt-2">Provide a detailed description of your product</p>
+            </div>
+
+            <!-- Price -->
+            <div class="mb-6">
+              <label class="block text-gray-800 font-semibold mb-2">
+                Price (₹) <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                [(ngModel)]="product.price"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-gray-700">
+            </div>
+
+          </div>
+
+          <!-- Product Image Section -->
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 pb-3 border-b border-gray-200">
+              Product Image
+            </h2>
+
+            <!-- Image Upload Area -->
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-purple-500 transition-colors cursor-pointer bg-gray-50"
+                 (click)="fileInput.click()"
+                 (dragover)="onDragOver($event)"
+                 (drop)="onDrop($event)">
+              <input
+                #fileInput
+                type="file"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                class="hidden">
+
+              <div *ngIf="!imagePreview" class="flex flex-col items-center">
+                <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <p class="text-gray-600 font-medium mb-2">Click to upload or drag and drop</p>
+                <p class="text-gray-400 text-sm">PNG, JPG up to 5MB</p>
+              </div>
+
+              <div *ngIf="imagePreview" class="relative">
+                <img [src]="imagePreview" alt="Preview" class="max-h-64 mx-auto rounded-lg">
+                <button
+                  (click)="removeImage($event)"
+                  class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+            <button
+              (click)="addProduct()"
+              class="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span>Add Product</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Preview -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Product Preview</h2>
+
+          <!-- Product Card Preview -->
+          <div class="bg-gray-50 rounded-lg overflow-hidden border-2 border-gray-200">
+
+            <!-- Image Preview -->
+            <div class="w-full h-48 bg-gradient-to-br from-purple-100 to-indigo-100 flex items-center justify-center relative overflow-hidden">
+              <img
+                *ngIf="imagePreview"
+                [src]="imagePreview"
+                alt="Product preview"
+                class="w-full h-full object-cover">
+              <div *ngIf="!imagePreview" class="text-center">
+                <svg class="w-20 h-20 text-purple-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Product Details Preview -->
+            <div class="p-4">
+              <h3 class="text-xl font-bold text-gray-800 mb-2 truncate">
+                {{ product.name || 'Product Name' }}
+              </h3>
+
+              <p class="text-gray-600 text-sm mb-4 line-clamp-3 min-h-[60px]">
+                {{ product.description || 'Product description will appear here...' }}
+              </p>
+
+              <div class="flex items-center justify-between pt-3 border-t border-gray-200">
+                <div class="text-3xl font-bold text-purple-600">
+                  ₹{{ product.price ? product.price.toFixed(2) : '0.00' }}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
